@@ -1,0 +1,392 @@
+/* Estilos Generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth; /* Suaviza el scroll entre secciones */
+}
+
+/* Header Fijo */
+.header {
+    background-color: #fff;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed; /* Hace el header fijo */
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.header .logo img {
+    height: 90px; /* Ajusta el tamaño de tu logo */
+}
+
+.nav-menu ul {
+    list-style: none;
+    color: #000000;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.nav-menu ul li {
+    margin-left: 20px;
+}
+
+.nav-menu ul li a {
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
+    transition: color 0.3s ;
+}
+
+.nav-menu ul li a:hover {
+    color: #2b84e4; /* Color al pasar el mouse */
+}
+
+/* Sección Hero (Colección de imágenes) */
+.hero-section {
+    position: relative;
+    height: 100vh; /* Ocupa toda la altura de la ventana */
+    overflow: hidden;
+    margin-top: 80px; /* Espacio para el header fijo */
+}
+
+.hero-slider {
+    display: flex;
+    width: 300%; /* Para 3 imágenes, ajusta si tienes más */
+    height: 100%;
+    animation: slideShow 15s infinite ease-in-out; /* Animación de slider */
+}
+
+.hero-slider img {
+    width: 100vw;
+    height: 100%;
+    object-fit: cover;
+}
+
+@keyframes slideShow {
+    0% { transform: translateX(0); }
+    33.33% { transform: translateX(-100vw); }
+    66.66% { transform: translateX(-200vw); }
+    100% { transform: translateX(0); } /* Vuelve al inicio */
+}
+
+.hero-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px 40px;
+    border-radius: 10px;
+}
+
+.hero-text h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+.hero-text p {
+    font-size: 1.2em;
+}
+
+/* Secciones de Contenido */
+.content-section {
+    min-height: 100vh; /* Cada sección ocupa toda la pantalla */
+    padding: 100px 20px 20px; /* Espacio para el header */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra el contenido verticalmente */
+    align-items: center; /* Centra el contenido horizontalmente */
+    text-align: center;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #eee;
+}
+
+.content-section:nth-of-type(even) {
+    background-color: #fff;
+}
+
+.content-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.content-section p {
+    max-width: 600px;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* Estilos Específicos para el Mapa */
+.content-section .img {
+    width: 100%;
+    max-width: 800px;
+    height: 450px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+/* Estilos para el Formulario de Contacto */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 500px;
+    margin-top: 20px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.contact-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.contact-form button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease;
+}
+
+.contact-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+
+/* Estilos generales para la sección Agenda (puedes combinar con tus estilos existentes) */
+#agenda {
+    background-size: cover;
+    background-position: center;
+    color: white; /* Color del texto */
+    padding: 60px 20px;
+    position: relative;
+    overflow: hidden;
+    text-align: center; /* Centra el título y la descripción */
+}
+
+/* Capa oscura para la sección Agenda si usas imagen de fondo */
+#agenda::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(54, 54, 54, 0.096); /* Capa oscura */
+    z-index: 1;
+}
+
+#agenda > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* Estilos del carrusel */
+.carousel-container {
+    position: relative;
+    min-width: 600px;
+    max-width: 800px; /* Ancho máximo del carrusel */
+    margin: 40px auto; /* Centra el carrusel y añade espacio */
+    overflow: hidden; /* Muy importante para ocultar los slides que no están activos */
+    border-radius: 8px; /* Bordes redondeados para el contenedor */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra suave */
+}
+
+.carousel-slide {
+    display: none; /* Por defecto, todos los slides están ocultos */
+    width: 100%;
+    text-align: center;
+    position: relative; /* Para posicionar la información del slide */
+}
+
+.carousel-slide.active {
+    display: block; /* Muestra solo el slide activo */
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 400px; /* Altura fija para las imágenes del carrusel */
+    object-fit: cover; /* Ajusta la imagen para cubrir el espacio sin distorsionarse */
+    display: block; /* Elimina espacio extra debajo de la imagen */
+}
+
+.slide-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semi-transparente para la información */
+    color: rgb(243, 243, 243);
+    padding: 15px;
+    box-sizing: border-box; /* Incluye padding en el ancho total */
+    text-align: left; /* Alinea el texto a la izquierda dentro del info box */
+}
+
+.slide-info h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 1.5em;
+}
+
+.slide-info p {
+    margin: 0;
+    font-size: 1em;
+    color: #f8f8f8;
+}
+
+/* Botones de navegación (anterior/siguiente) */
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    background-color: rgba(0,0,0,0.5); /* Fondo semi-transparente */
+    border: none;
+    outline: none;
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+/* Puntos indicadores (dots) */
+.carousel-dots {
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+    z-index: 2; /* Asegura que los dots estén sobre la capa oscura de la sección */
+}
+
+.dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.dot.active, .dot:hover {
+    background-color: #717171;
+}
+
+
+
+
+
+/* --- Estilos de la sección principal (generalmente los mantienes) --- */
+#quienes-somos {
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden; /* Esto es si tienes un fondo con overlay */
+}
+
+/* Contenedor Flex para alinear texto y carrusel */
+.quienes-somos-container {
+    display: flex;
+    align-items: center; /* Alinea verticalmente */
+    max-width: 1200px; /* Ancho máximo de la sección */
+    margin: 0 auto;
+    padding: 20px;
+    gap: 20px; /* Espacio entre el texto y el carrusel */
+}
+
+.text-content {
+    flex: 1; /* El texto ocupará el espacio restante */
+    min-width: 300px; /* Ancho mínimo para que el texto no se comprima demasiado */
+}
+
+/* --- Estilos para el nuevo carrusel de scroll infinito --- */
+
+.image-carousel-wrapper {
+    flex-shrink: 0; /* Evita que el wrapper se encoja */
+    width: 400px; /* Ancho visible del carrusel. ¡Ajusta a tu gusto! */
+    height: 250px; /* Altura visible del carrusel. ¡Ajusta a tu gusto! */
+    overflow: hidden; /* ¡ESENCIAL! Oculta el contenido que se desplaza fuera */
+    border-radius: 8px; /* Opcional: bordes redondeados */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2); /* Opcional: sombra */
+    position: relative; /* Para asegurar el posicionamiento del carrusel interno */
+}
+
+.image-carousel {
+    display: flex; /* Alinea las imágenes una al lado de la otra */
+    height: 100%; /* El carrusel ocupa toda la altura del wrapper */
+    /* La animación de desplazamiento se aplicará con JavaScript (transform: translateX) */
+}
+
+.image-carousel img {
+    flex-shrink: 0; /* ¡ESENCIAL! Evita que las imágenes se encojan */
+    width: 400px; /* Cada imagen debe tener el mismo ancho que el wrapper. ¡Ajusta para que coincida! */
+    height: 100%; /* Ocupa toda la altura del carrusel */
+    object-fit: cover; /* Asegura que la imagen cubra el espacio sin distorsión */
+    display: block; /* Elimina cualquier espacio extra */
+}
+
+/* --- Media query para pantallas más pequeñas (opcional, pero recomendado) --- */
+@media (max-width: 768px) {
+    .quienes-somos-container {
+        flex-direction: column; /* Apila el texto y el carrusel en móviles */
+        align-items: center;
+        text-align: center;
+    }
+
+    .text-content {
+        padding-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .image-carousel-wrapper {
+        width: 90%; /* Más ancho en móviles */
+        max-width: 400px; /* Limita el ancho en pantallas medianas */
+        height: 200px; /* Ajusta la altura */
+    }
+
+    .image-carousel img {
+        width: 100%; /* Cada imagen toma el ancho del wrapper en móviles */
+    }
+}

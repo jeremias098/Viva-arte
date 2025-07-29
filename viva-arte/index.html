@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viva Arte - Galería de Arte</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="./img/logo-viva-arte.png" alt="Viva Arte Logo"> </div>
+         <nav class="nav-menu">
+            <ul>
+                <li><a href="#quienes-somos">Quiénes Somos</a></li>
+                <li><a href="#donde-estamos">Dónde Estamos</a></li>
+                <li><a href="#agenda">Agenda</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="hero-section">
+            <div class="hero-slider">
+                <img src="./img/galeria1.jpg" alt="Obra de arte 1">
+                <img src="./img/galeria2.jpg" alt="Obra de arte 2">
+                <img src="./img/galeria3.jpg" alt="Obra de arte 3">
+            </div>
+            <div class="hero-text">
+                <h1>Bem-vindo à Viva Arte</h1>
+                <p>Explore o mundo da arte.</p>
+            </div>
+        </section>
+
+      <section id="quienes-somos" class="content-section">
+    <div class="quienes-somos-container">
+        <div class="text-content">
+            <h2>Quem somos?</h2>
+            <p>Viva Arte, é um espaço independente dedicado à difusão da arte contemporânea.
+            Nossa missão é promover a criação artística atual, gerando vínculos entre artistas, públicos e curadores, tanto a nível local como internacional.</p>
+        </div>
+        <div class="image-carousel-wrapper"> 
+            <div class="image-carousel">
+                
+                <img src="./img/galeria1.jpg" alt="Imagen 1 Quem somos">
+                <img src="./img/galeria2.jpg" alt="Imagen 2 Quem somos">
+                <img src="./img/galeria3.jpg" alt="Imagen 3 Quem somos">
+                
+                <img src="./img/galeria1.jpg" alt="Imagen 1 Quem somos (copia)">
+                <img src="./img/galeria2.jpg" alt="Imagen 2 Quem somos (copia)">
+                <img src="./img/galeria3.jpg" alt="Imagen 3 Quem somos (copia)">
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+        <section id="donde-estamos" class="content-section">
+            <h2>Onde estamos?</h2>
+            <p>Estamos no coração de Florianópolis, onde a cidade bate alto e a arte encontra seu lugar.
+Nossa casa está no Complexo Viva Trindade, um espaço onde cultura, design e comunidade convergem.</p>
+            <div class="mapa">
+                <img src="./img/ubic.png" alt="">
+            </div>
+            </section>
+
+<section id="agenda" class="content-section">
+    <h2>Agenda</h2>
+    <p>Descubra nossos próximos eventos e exposições.</p>
+
+    <div class="carousel-container">
+        <div class="carousel-slide active">
+            <img src="./img/lito.png" alt="Exposición Colores de Córdoba">
+            <div class="slide-info">
+                <h3>Lito Demuro</h3>
+                <p>Lito Demuro é um artista argentino nascido em Copetonas, Buenos Aires, e radicado há décadas em Jujuy, onde encontrou não apenas uma paisagem, mas uma verdade mais profunda para a sua pintura. Sua obra é corpo, é território, é grito: uma linguagem visual que mistura o figurativo com o gestual, o social com o íntimo.</p>
+                <p>Agosto</p>
+            </div>
+        </div>
+
+        <div class="carousel-slide">
+            <img src="./img/martins.png" alt="Taller de Pintura Abstracta">
+            <div class="slide-info">
+                <h3>Luciano Martins</h3>
+                <p>Luciano Martins, natural de Porto Alegre e residente em Florianópolis desde os anos 90, descobriu nesta ilha não apenas um lar, mas um universo para expandir sua arte. Aqui ele encontrou uma paisagem de luz e cores onde seus personagens ganham vida e sua criatividade se desdobra com liberdade e alegria.</p>
+                <p>Setembro</p>
+            </div>
+        </div>
+
+        <div class="carousel-slide">
+            <img src="./img/galeria3.jpg" alt="Próximo Evento">
+            <div class="slide-info">
+                <h3>Ely Albernaz</h3>
+                <p>Ely Albernaz (Rivera, 1947) vive e trabalha entre o Uruguai e Florianópolis. Sua obra abstrata — tanto na pintura quanto na escultura — evoca paisagens internas, silenciosas e densas, construídas com gestos de cor e forma que dignificam o tempo suspenso e a memória viva.</p>
+                <p>Octubro</p>
+            </div>
+        </div>
+
+        <div class="carousel-slide">
+            <img src="./img/galeria2.jpg" alt="Próximo Evento">
+            <div class="slide-info">
+                <h3>Paulo Brunari </h3>
+                <p>Paulo Burani vive e pinta em Florianópolis desde 2010. Sua obra combina abstração, natureza e figuras sutis, formando composições que ecoam reflexões sobre identidade, memória e o diálogo entre homem e meio ambiente.</p>
+                <p>Novembro</p>
+            </div>
+        </div>
+
+        <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+        <button class="next" onclick="moveSlide(1)">&#10095;</button>
+    </div>
+
+    <div class="carousel-dots">
+        <span class="dot active" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
+
+</section>
+        <section id="contacto" class="content-section">
+            <h2>Contacto</h2>
+            <p>Entre em contato conosco</p>
+            <form class="contact-form">
+                <input type="text" placeholder="Tu Nombre">
+                <input type="email" placeholder="Tu Email">
+                <textarea placeholder="Tu Mensaje"></textarea>
+                <button type="submit">Enviar</button>
+            </form>
+            <p>Teléfono: +54 9 351 XXXX XXXX</p>
+            <p>Email:vivarteflorianopolis@gmail.com</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Viva Arte. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="./js/script.js"></script>
+</body>
+</html>
