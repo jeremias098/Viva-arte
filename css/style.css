@@ -1,392 +1,567 @@
-/* Estilos Generales */
-body {
-    font-family: Arial, sans-serif;
+/* Variables de color */
+:root {
+    --primary-color: #6D5E56;
+    --secondary-color: #4CAF50;
+    --text-color: #333;
+    --light-text-color: #f8f8f8;
+    --background-grey: #f0f0f0;
+    --red-albernaz: #CC3333;
+    --nav-height-desktop: 80px;
+    --footer-height-desktop: 60px;
+    --nav-height-mobile: 70px;
+    --footer-height-mobile: 50px;
+}
+
+/* Reset básico */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    scroll-behavior: smooth; /* Suaviza el scroll entre secciones */
 }
 
-/* Header Fijo */
-.header {
-    background-color: #fff;
-    padding: 15px 20px;
+body {
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden; /* Oculta el scroll natural del body */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-grey);
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--nav-height-desktop);
+    background-color: rgba(255, 255, 255, 0.95);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: fixed; /* Hace el header fijo */
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000; /* Asegura que esté por encima de otros elementos */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 0 40px;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.header .logo img {
-    height: 90px; /* Ajusta el tamaño de tu logo */
+.navbar .logo img {
+    height: 50px; /* Ajusta el tamaño del logo */
+    max-width: 100%; /* Asegura que el logo no se desborde */
 }
 
 .nav-menu ul {
     list-style: none;
-    color: #000000;
-    margin: 0;
-    padding: 0;
     display: flex;
 }
 
 .nav-menu ul li {
-    margin-left: 20px;
+    margin-left: 30px;
 }
 
 .nav-menu ul li a {
     text-decoration: none;
-    color: #000000;
-    font-weight: bold;
-    transition: color 0.3s ;
+    color: var(--text-color);
+    font-weight: 600;
+    padding: 5px 10px;
+    transition: color 0.3s ease;
+    white-space: nowrap; /* Evita que los enlaces se rompan en varias líneas */
 }
 
-.nav-menu ul li a:hover {
-    color: #2b84e4; /* Color al pasar el mouse */
+.nav-menu ul li a:hover,
+.nav-menu ul li a.active {
+    color: var(--primary-color);
 }
 
-/* Sección Hero (Colección de imágenes) */
-.hero-section {
+/* Hamburger Menu (Hidden by default) */
+.hamburger-menu {
+    display: none; /* Se mostrará con media queries */
+    font-size: 30px;
+    cursor: pointer;
+    color: var(--text-color);
+    padding: 10px; /* Área de clic más grande */
+}
+
+/* Page Container */
+.page-container {
     position: relative;
-    height: 100vh; /* Ocupa toda la altura de la ventana */
-    overflow: hidden;
-    margin-top: 80px; /* Espacio para el header fijo */
-}
-
-.hero-slider {
+    width: 100%;
+    /* Calcula la altura disponible restando nav y footer */
+    height: calc(100vh - var(--nav-height-desktop) - var(--footer-height-desktop));
+    top: var(--nav-height-desktop); /* Debajo de la navbar */
     display: flex;
-    width: 300%; /* Para 3 imágenes, ajusta si tienes más */
+    transition: transform 0.8s ease-in-out;
+}
+
+.page {
+    min-width: 100%;
     height: 100%;
-    animation: slideShow 15s infinite ease-in-out; /* Animación de slider */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 20px; /* Padding exterior para todas las páginas */
+    position: relative;
+    overflow: hidden;
 }
 
-.hero-slider img {
-    width: 100vw;
+.page-content {
+    display: flex;
+    width: 100%;
     height: 100%;
-    object-fit: cover;
+    max-width: 1200px;
+    margin: auto;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-@keyframes slideShow {
-    0% { transform: translateX(0); }
-    33.33% { transform: translateX(-100vw); }
-    66.66% { transform: translateX(-200vw); }
-    100% { transform: translateX(0); } /* Vuelve al inicio */
-}
-
-.hero-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff;
-    text-align: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 20px 40px;
-    border-radius: 10px;
-}
-
-.hero-text h1 {
-    font-size: 3em;
-    margin-bottom: 10px;
-}
-
-.hero-text p {
-    font-size: 1.2em;
-}
-
-/* Secciones de Contenido */
-.content-section {
-    min-height: 100vh; /* Cada sección ocupa toda la pantalla */
-    padding: 100px 20px 20px; /* Espacio para el header */
+.text-block {
+    flex: 1;
+    padding: 40px;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centra el contenido verticalmente */
-    align-items: center; /* Centra el contenido horizontalmente */
-    text-align: center;
-    background-color: #f8f8f8;
-    border-bottom: 1px solid #eee;
+    justify-content: center;
+    color: var(--text-color);
+    /* Aseguramos que el contenido del texto no se desborde */
+    overflow-y: auto; /* Permite scroll si el texto es muy largo */
 }
 
-.content-section:nth-of-type(even) {
-    background-color: #fff;
-}
-
-.content-section h2 {
+.text-block h1 {
     font-size: 2.5em;
-    margin-bottom: 30px;
-    color: #333;
+    margin-bottom: 20px;
+    color: var(--text-color);
 }
 
-.content-section p {
-    max-width: 600px;
+.text-block h2 {
+    font-size: 1.8em;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.text-block p {
+    font-size: 1.1em;
     line-height: 1.6;
-    color: #555;
+    margin-bottom: 15px;
 }
 
-/* Estilos Específicos para el Mapa */
-.content-section .img {
+.image-block {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    min-height: 250px; /* Altura mínima para asegurar que la imagen siempre se vea */
+}
+
+.image-block img {
     width: 100%;
-    max-width: 800px;
-    height: 450px;
-    border-radius: 8px;
-    margin-top: 20px;
+    height: 100%;
+    object-fit: cover;
+    display: block; /* Elimina espacios extra debajo de la imagen */
 }
 
-/* Estilos para el Formulario de Contacto */
+/* Colores de fondo específicos para cada página */
+#quienes-somos .page-content {
+    background-color: var(--background-grey);
+}
+#quienes-somos .image-block {
+    background-color: #ececec;
+}
+
+#donde-estamos .page-content {
+    background-color: var(--background-grey);
+}
+#donde-estamos .image-block {
+    background-color: #ececec;
+}
+.map-container {
+    margin-top: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+.map-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 5px;
+}
+
+#agenda .page-content {
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    box-shadow: none;
+}
+#agenda .text-block {
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    border-radius: 8px 0 0 8px;
+    padding: 40px;
+}
+#agenda .text-block h1 {
+    color: var(--light-text-color);
+}
+#agenda .image-block {
+    background-color: #FFC107;
+    border-radius: 0 8px 8px 0;
+}
+
+/* Estilos para los enlaces dentro de la Agenda */
+.agenda-text p a {
+    text-decoration: none;
+    color: var(--light-text-color);
+    font-weight: 700;
+    transition: color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+}
+
+.agenda-text p a:hover {
+    color: #FFC107;
+    transform: translateX(5px);
+}
+
+#lito-demuro .page-content {
+    background-color: var(--secondary-color);
+    color: var(--light-text-color);
+    box-shadow: none;
+}
+#lito-demuro .text-block {
+    background-color: var(--secondary-color);
+    color: var(--light-text-color);
+    border-radius: 8px 0 0 8px;
+}
+#lito-demuro .text-block h1 {
+    color: var(--light-text-color);
+}
+#lito-demuro .image-block {
+    background-color: #616161;
+    border-radius: 0 8px 8px 0;
+}
+
+#luciano-martins .page-content {
+    background-color: var(--background-grey);
+    color: var(--text-color);
+}
+#luciano-martins .text-block {
+    background-color: var(--background-grey);
+}
+#luciano-martins .image-block {
+    background-color: #5b90f7;
+}
+
+#ely-albernaz .page-content {
+    background-color: var(--background-grey);
+    color: var(--text-color);
+}
+#ely-albernaz .text-block {
+    background-color: var(--background-grey);
+}
+#ely-albernaz .image-block {
+    background-color: var(--red-albernaz);
+}
+
+#paulo-brunari .page-content {
+    background-color: var(--background-grey);
+    color: var(--text-color);
+}
+#paulo-brunari .text-block {
+    background-color: var(--background-grey);
+}
+#paulo-brunari .image-block {
+    background-color: #2ECC71;
+}
+
+#contacto .page-content {
+    background-color: var(--background-grey);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+    text-align: center; /* Centra el título de contacto */
+}
+
 .contact-form {
     display: flex;
     flex-direction: column;
     gap: 15px;
     width: 100%;
     max-width: 500px;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .contact-form input,
 .contact-form textarea {
-    padding: 12px;
+    padding: 15px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 25px;
     font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: var(--primary-color);
 }
 
 .contact-form textarea {
     resize: vertical;
-    min-height: 100px;
+    min-height: 120px;
 }
 
 .contact-form button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 12px 20px;
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    padding: 15px 25px;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    border-radius: 25px;
     font-size: 1.1em;
+    cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .contact-form button:hover {
-    background-color: #0056b3;
+    background-color: #5a4f47;
 }
 
 /* Footer */
-footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-}
-
-
-/* Estilos generales para la sección Agenda (puedes combinar con tus estilos existentes) */
-#agenda {
-    background-size: cover;
-    background-position: center;
-    color: white; /* Color del texto */
-    padding: 60px 20px;
-    position: relative;
-    overflow: hidden;
-    text-align: center; /* Centra el título y la descripción */
-}
-
-/* Capa oscura para la sección Agenda si usas imagen de fondo */
-#agenda::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(54, 54, 54, 0.096); /* Capa oscura */
-    z-index: 1;
-}
-
-#agenda > * {
-    position: relative;
-    z-index: 2;
-}
-
-/* Estilos del carrusel */
-.carousel-container {
-    position: relative;
-    min-width: 600px;
-    max-width: 800px; /* Ancho máximo del carrusel */
-    margin: 40px auto; /* Centra el carrusel y añade espacio */
-    overflow: hidden; /* Muy importante para ocultar los slides que no están activos */
-    border-radius: 8px; /* Bordes redondeados para el contenedor */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra suave */
-}
-
-.carousel-slide {
-    display: none; /* Por defecto, todos los slides están ocultos */
-    width: 100%;
-    text-align: center;
-    position: relative; /* Para posicionar la información del slide */
-}
-
-.carousel-slide.active {
-    display: block; /* Muestra solo el slide activo */
-}
-
-.carousel-slide img {
-    width: 100%;
-    height: 400px; /* Altura fija para las imágenes del carrusel */
-    object-fit: cover; /* Ajusta la imagen para cubrir el espacio sin distorsionarse */
-    display: block; /* Elimina espacio extra debajo de la imagen */
-}
-
-.slide-info {
-    position: absolute;
+.footer {
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semi-transparente para la información */
-    color: rgb(243, 243, 243);
-    padding: 15px;
-    box-sizing: border-box; /* Incluye padding en el ancho total */
-    text-align: left; /* Alinea el texto a la izquierda dentro del info box */
-}
-
-.slide-info h3 {
-    margin-top: 0;
-    margin-bottom: 5px;
-    font-size: 1.5em;
-}
-
-.slide-info p {
-    margin: 0;
-    font-size: 1em;
-    color: #f8f8f8;
-}
-
-/* Botones de navegación (anterior/siguiente) */
-.prev, .next {
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    width: auto;
-    padding: 16px;
-    margin-top: -22px;
-    color: white;
-    font-weight: bold;
-    font-size: 20px;
-    transition: 0.6s ease;
-    border-radius: 0 3px 3px 0;
-    user-select: none;
-    background-color: rgba(0,0,0,0.5); /* Fondo semi-transparente */
-    border: none;
-    outline: none;
-}
-
-.next {
-    right: 0;
-    border-radius: 3px 0 0 3px;
-}
-
-.prev:hover, .next:hover {
-    background-color: rgba(0,0,0,0.8);
-}
-
-/* Puntos indicadores (dots) */
-.carousel-dots {
-    text-align: center;
-    padding: 20px 0;
-    position: relative;
-    z-index: 2; /* Asegura que los dots estén sobre la capa oscura de la sección */
-}
-
-.dot {
-    cursor: pointer;
-    height: 15px;
-    width: 15px;
-    margin: 0 2px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-    transition: background-color 0.6s ease;
-}
-
-.dot.active, .dot:hover {
-    background-color: #717171;
-}
-
-
-
-
-
-/* --- Estilos de la sección principal (generalmente los mantienes) --- */
-#quienes-somos {
-    padding: 40px 20px;
-    position: relative;
-    overflow: hidden; /* Esto es si tienes un fondo con overlay */
-}
-
-/* Contenedor Flex para alinear texto y carrusel */
-.quienes-somos-container {
+    height: var(--footer-height-desktop);
+    background-color: rgba(255, 255, 255, 0.95);
     display: flex;
-    align-items: center; /* Alinea verticalmente */
-    max-width: 1200px; /* Ancho máximo de la sección */
-    margin: 0 auto;
-    padding: 20px;
-    gap: 20px; /* Espacio entre el texto y el carrusel */
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color);
+    font-size: 0.9em;
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
 }
 
-.text-content {
-    flex: 1; /* El texto ocupará el espacio restante */
-    min-width: 300px; /* Ancho mínimo para que el texto no se comprima demasiado */
-}
+/* ==================================== */
+/* MEDIA QUERIES PARA RESPONSIVIDAD */
+/* ==================================== */
 
-/* --- Estilos para el nuevo carrusel de scroll infinito --- */
+/* Tablet y Mobile (general) */
+@media (max-width: 992px) {
+    .navbar {
+        height: var(--nav-height-mobile);
+        padding: 0 20px;
+    }
 
-.image-carousel-wrapper {
-    flex-shrink: 0; /* Evita que el wrapper se encoja */
-    width: 400px; /* Ancho visible del carrusel. ¡Ajusta a tu gusto! */
-    height: 250px; /* Altura visible del carrusel. ¡Ajusta a tu gusto! */
-    overflow: hidden; /* ¡ESENCIAL! Oculta el contenido que se desplaza fuera */
-    border-radius: 8px; /* Opcional: bordes redondeados */
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2); /* Opcional: sombra */
-    position: relative; /* Para asegurar el posicionamiento del carrusel interno */
-}
+    .navbar .logo img {
+        height: 40px; /* Ajusta el logo para pantallas más pequeñas */
+    }
 
-.image-carousel {
-    display: flex; /* Alinea las imágenes una al lado de la otra */
-    height: 100%; /* El carrusel ocupa toda la altura del wrapper */
-    /* La animación de desplazamiento se aplicará con JavaScript (transform: translateX) */
-}
+    .nav-menu {
+        display: none; /* Oculta el menú de navegación principal */
+        flex-direction: column;
+        position: fixed; /* Ojo: 'fixed' para que cubra la pantalla */
+        top: var(--nav-height-mobile); /* Comienza debajo de la navbar */
+        left: 0;
+        width: 100%;
+        height: calc(100vh - var(--nav-height-mobile)); /* Ocupa el resto de la altura */
+        background-color: rgba(255, 255, 255, 0.98); /* Fondo más opaco para el menú */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        padding: 20px 0;
+        z-index: 999;
+        /* Animación para que aparezca suavemente */
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-out;
+        overflow-y: auto; /* Para que el menú pueda hacer scroll si hay muchos ítems */
+    }
 
-.image-carousel img {
-    flex-shrink: 0; /* ¡ESENCIAL! Evita que las imágenes se encojan */
-    width: 400px; /* Cada imagen debe tener el mismo ancho que el wrapper. ¡Ajusta para que coincida! */
-    height: 100%; /* Ocupa toda la altura del carrusel */
-    object-fit: cover; /* Asegura que la imagen cubra el espacio sin distorsión */
-    display: block; /* Elimina cualquier espacio extra */
-}
+    .nav-menu.open {
+        display: flex; /* Muestra el menú cuando la clase 'open' está activa */
+        transform: translateX(0);
+    }
 
-/* --- Media query para pantallas más pequeñas (opcional, pero recomendado) --- */
-@media (max-width: 768px) {
-    .quienes-somos-container {
-        flex-direction: column; /* Apila el texto y el carrusel en móviles */
+    .nav-menu ul {
+        flex-direction: column;
         align-items: center;
+        width: 100%;
+    }
+
+    .nav-menu ul li {
+        margin: 15px 0; /* Espaciado vertical para los ítems del menú */
+        width: 100%; /* Para que los enlaces ocupen todo el ancho si se desea centrar el texto */
         text-align: center;
     }
 
-    .text-content {
-        padding-right: 0;
-        margin-bottom: 20px;
+    .nav-menu ul li a {
+        font-size: 1.2em; /* Hace los enlaces más grandes */
+        padding: 10px 0; /* Mayor área clicable */
+        display: block; /* Para que el padding y el text-align funcionen en todo el ancho */
+        color: var(--text-color); /* Asegura que el color se mantenga */
+    }
+    .nav-menu ul li a:hover {
+        background-color: var(--background-grey);
     }
 
-    .image-carousel-wrapper {
-        width: 90%; /* Más ancho en móviles */
-        max-width: 400px; /* Limita el ancho en pantallas medianas */
-        height: 200px; /* Ajusta la altura */
+
+    .hamburger-menu {
+        display: block; /* Muestra el icono de hamburguesa */
     }
 
-    .image-carousel img {
-        width: 100%; /* Cada imagen toma el ancho del wrapper en móviles */
+    /* Ajuste del page-container para nueva altura de nav/footer */
+    .page-container {
+        height: calc(100vh - var(--nav-height-mobile) - var(--footer-height-mobile));
+        top: var(--nav-height-mobile);
+    }
+
+    .footer {
+        height: var(--footer-height-mobile);
+    }
+
+    /* Contenido de las páginas: cambia a columna */
+    .page-content {
+        flex-direction: column;
+        margin-top: 0; /* Elimina margen superior para aprovechar el espacio */
+        margin-bottom: 0; /* Elimina margen inferior */
+        border-radius: 0; /* Elimina bordes redondeados en pantallas pequeñas para ocupar todo el espacio */
+        height: auto; /* Altura automática basada en el contenido */
+        max-width: 100%; /* Ocupa todo el ancho disponible */
+    }
+
+    .text-block, .image-block {
+        flex: none; /* Anula flex: 1 */
+        width: 100%; /* Ocupa todo el ancho */
+        padding: 30px 20px; /* Ajusta el padding lateral */
+        min-height: auto; /* Resetea la altura mínima para que se ajuste al contenido */
+    }
+
+    .text-block h1 {
+        font-size: 2em;
+    }
+
+    .text-block h2 {
+        font-size: 1.5em;
+    }
+
+    .text-block p {
+        font-size: 1em;
+    }
+
+    .image-block {
+        height: 250px; /* Altura fija para las imágenes en mobile/tablet */
+        /* Asegurarse que la imagen se vea bien */
+        max-height: 50vh; /* Máximo 50% de la altura de la vista si la imagen es muy grande */
+    }
+
+    /* Ajustes específicos para Agenda en pantallas pequeñas */
+    #agenda .page-content {
+        flex-direction: column-reverse; /* Cambia el orden para que la imagen quede arriba */
+    }
+    #agenda .text-block, #agenda .image-block {
+        border-radius: 0; /* Quita los bordes redondeados específicos */
+    }
+    #agenda .image-block {
+        background-color: var(--primary-color); /* Asegura que la imagen de agenda mantenga el color de fondo */
+    }
+    .agenda-text p a {
+        text-align: left; /* Alinea los links a la izquierda en agenda mobile */
+        width: auto; /* Anula el width:100% que puedan haber heredado */
+    }
+
+
+    /* Ajustes para artistas (también se apilan y la imagen va arriba) */
+    .artist-page .page-content {
+        flex-direction: column-reverse; /* Texto abajo, imagen arriba */
+    }
+    .artist-page .text-block, .artist-page .image-block {
+        border-radius: 0;
+    }
+
+    .contact-form {
+        max-width: 95%; /* Ajusta el ancho del formulario */
+        padding: 0 10px; /* Pequeño padding para el formulario */
+    }
+
+    .contact-form input,
+    .contact-form textarea,
+    .contact-form button {
+        padding: 12px;
+        font-size: 0.9em;
+    }
+}
+
+/* Mobile específico (pantallas más pequeñas aún) */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0 15px;
+    }
+    .navbar .logo img {
+        height: 35px;
+    }
+    .hamburger-menu {
+        font-size: 26px;
+    }
+
+    .nav-menu {
+        top: var(--nav-height-mobile); /* Asegura que siga debajo de la navbar */
+        height: calc(100vh - var(--nav-height-mobile));
+    }
+
+    .page-container {
+        height: calc(100vh - var(--nav-height-mobile) - var(--footer-height-mobile));
+        top: var(--nav-height-mobile);
+    }
+    .footer {
+        font-size: 0.8em;
+    }
+
+    .text-block {
+        padding: 25px 15px;
+    }
+    .text-block h1 {
+        font-size: 1.6em;
+    }
+    .text-block h2 {
+        font-size: 1.2em;
+    }
+    .text-block p {
+        font-size: 0.9em;
+    }
+    .image-block {
+        height: 200px; /* Reduce un poco más la altura de la imagen */
+    }
+    .map-container {
+        padding: 5px; /* Reduce padding del mapa */
+    }
+
+    .contact-form {
+        gap: 10px; /* Reduce el espacio entre campos del formulario */
+    }
+}
+
+/* Extra Small Devices (e.g., iPhone 5/SE) */
+@media (max-width: 480px) {
+    .navbar {
+        padding: 0 10px;
+    }
+    .navbar .logo img {
+        height: 30px;
+    }
+    .hamburger-menu {
+        font-size: 24px;
+    }
+    .text-block h1 {
+        font-size: 1.4em;
+    }
+    .text-block h2 {
+        font-size: 1.1em;
+    }
+    .text-block p {
+        font-size: 0.85em;
+    }
+    .image-block {
+        height: 180px;
     }
 }

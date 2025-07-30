@@ -1,129 +1,135 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Implementación del scroll suave para los enlaces del menú
-    document.querySelectorAll('.nav-menu a').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault(); // Previene el comportamiento por defecto del ancla
+    const pageContainer = document.querySelector('.page-container');
+    const pages = document.querySelectorAll('.page');
+    // Referencia solo a los enlaces del menú principal para la activación de la clase 'active'
+    const mainNavLinks = document.querySelectorAll('.nav-menu a');
+    // Referencia a TODOS los elementos clicables que pueden cambiar la página.
+    // Usamos el contenedor de la navbar y el contenedor de la agenda para delegar eventos.
+    const navbar = document.querySelector('.navbar');
+    const agendaText = document.querySelector('.agenda-text'); // Contenedor de los enlaces de artistas en agenda
 
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
+    const hamburgerMenu = document.querySelector('.hamburger-menu');
+    const navMenu = document.querySelector('.nav-menu');
+    let currentPageIndex = 0;
+    let isTransitioning = false;
 
-            if (targetElement) {
-                // Calcula la posición para que el header fijo no tape el inicio de la sección
-                const headerOffset = document.querySelector('.header').offsetHeight;
-                const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                const offsetPosition = elementPosition - headerOffset;
+    // Función para actualizar la página visible
+    function updatePage(index) {
+        if (isTransitioning || index < 0 || index >= pages.length) return;
 
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
+        isTransitioning = true;
+        currentPageIndex = index;
+        const offset = -currentPageIndex * 100;
+        pageContainer.style.transform = `translateX(${offset}vw)`;
+
+        // Actualizar la clase 'active' en el menú de navegación principal
+        mainNavLinks.forEach(link => link.classList.remove('active'));
+
+        // Lógica para resaltar el enlace correcto en el menú principal
+        if (index === 0) { // Quiénes somos
+            document.querySelector('.nav-menu a[href="#quienes-somos"]').classList.add('active');
+        } else if (index === 1) { // Dónde estamos
+            document.querySelector('.nav-menu a[href="#donde-estamos"]').classList.add('active');
+        } else if (index === 2 || (index >= 3 && index <= 6)) { // Agenda o cualquier página de artista
+            document.querySelector('.nav-menu a[href="#agenda"]').classList.add('active');
+        } else if (index === 7) { // Contacto
+            document.querySelector('.nav-menu a[href="#contacto"]').classList.add('active');
+        }
+
+        // Después de la transición, permitir nuevas transiciones
+        pageContainer.addEventListener('transitionend', () => {
+            isTransitioning = false;
+        }, { once: true });
+    }
+
+    // Delegación de eventos para los enlaces del menú principal
+    navbar.addEventListener('click', (e) => {
+        const targetLink = e.target.closest('.nav-menu a'); // Busca el ancestro <a> más cercano
+        if (targetLink) {
+            e.preventDefault();
+            const indexToNavigate = parseInt(targetLink.getAttribute('data-page'));
+            if (!isNaN(indexToNavigate)) {
+                updatePage(indexToNavigate);
+                // Cerrar el menú de hamburguesa si está abierto
+                if (navMenu.classList.contains('open')) {
+                    navMenu.classList.remove('open');
+                }
+            }
+        }
+    });
+
+    // Delegación de eventos para los enlaces de la agenda
+    if (agendaText) { // Asegurarse de que el elemento existe
+        agendaText.addEventListener('click', (e) => {
+            const targetLink = e.target.closest('a'); // Busca el ancestro <a> más cercano
+            if (targetLink && targetLink.parentElement.tagName === 'P') { // Asegura que es un link dentro de un <p> en agenda
+                e.preventDefault();
+                const indexToNavigate = parseInt(targetLink.getAttribute('data-page'));
+                if (!isNaN(indexToNavigate)) {
+                    updatePage(indexToNavigate);
+                    // No hay menú de hamburguesa que cerrar aquí, ya que no es el menú principal.
+                }
             }
         });
+    }
+
+
+    // Navegación con flechas del teclado
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') {
+            if (currentPageIndex < pages.length - 1) {
+                updatePage(currentPageIndex + 1);
+            }
+        } else if (e.key === 'ArrowLeft') {
+            if (currentPageIndex > 0) {
+                updatePage(currentPageIndex - 1);
+            }
+        }
     });
 
-    // Pequeño script para el slider de imágenes (opcional, el CSS ya maneja la animación)
-    // Si quieres un control más dinámico (botones de siguiente/anterior, etc.)
-    // tendrías que expandir esta sección.
-    // Por ahora, la animación en CSS es suficiente para un slider simple.
-});
-
-
-
-    let slideIndex = 1; // Inicia en el primer slide
-
-    // Función para mostrar un slide específico
-    function showSlides(n) {
-        let i;
-        const slides = document.getElementsByClassName("carousel-slide");
-        const dots = document.getElementsByClassName("dot");
-
-        // Reinicia el índice si se pasa de los límites
-        if (n > slides.length) {
-            slideIndex = 1;
-        }    
-        if (n < 1) {
-            slideIndex = slides.length;
-        }
-
-        // Oculta todos los slides
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";  
-        }
-
-        // Remueve la clase 'active' de todos los dots
-        for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
-        }
-
-        // Muestra el slide actual y marca el dot activo
-        slides[slideIndex-1].style.display = "block";  
-        dots[slideIndex-1].className += " active";
-    }
-
-    // Función para avanzar o retroceder slides
-    function moveSlide(n) {
-        showSlides(slideIndex += n);
-    }
-
-    // Función para ir a un slide específico usando los dots
-    function currentSlide(n) {
-        showSlides(slideIndex = n);
-    }
-
-    // Muestra el primer slide al cargar la página
-    document.addEventListener('DOMContentLoaded', () => {
-        showSlides(slideIndex);
+    // Manejo del menú de hamburguesa
+    hamburgerMenu.addEventListener('click', () => {
+        navMenu.classList.toggle('open');
     });
 
-    // Opcional: Auto-avance del carrusel cada cierto tiempo
-    let autoSlideInterval = setInterval(() => {
-        moveSlide(1);
-     }, 5000); // Cambia de slide cada 5 segundos (5000 ms)
-
-    // Opcional: Pausar auto-avance al pasar el mouse por el carrusel
-    // const carouselContainer = document.querySelector('.carousel-container');
-    // carouselContainer.addEventListener('mouseenter', () => {
-    //     clearInterval(autoSlideInterval);
-    // });
-    // carouselContainer.addEventListener('mouseleave', () => {
-    //     autoSlideInterval = setInterval(() => {
-    //         moveSlide(1);
-    //     }, 5000);
-    // });
-
-
-  
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    const carousel = document.querySelector('.image-carousel');
-    const images = document.querySelectorAll('.image-carousel img');
-
-    // --- Verificación clave ---
-    if (!carousel || images.length === 0) {
-        console.error("Error: No se encontraron elementos para el carrusel de scroll infinito. Revisa tu HTML.");
-        return;
-    }
-    // -------------------------
-
-    const imageWidth = images[0].clientWidth; // Ancho de una sola imagen (debería ser el mismo para todas)
-    let currentPosition = 0; // Posición actual de desplazamiento
-    const totalImages = images.length / 2; // Número de imágenes originales (sin las duplicadas)
-
-    // Función para animar el desplazamiento
-    function scrollCarousel() {
-        currentPosition -= 1; // Desplaza 1px a la izquierda. Ajusta este valor para más velocidad
-        carousel.style.transform = `translateX(${currentPosition}px)`;
-
-        // Si hemos pasado la mitad de las imágenes (es decir, las originales),
-        // reiniciamos la posición para crear el efecto de loop
-        if (currentPosition <= -imageWidth * totalImages) {
-            currentPosition = 0; // Reinicia al principio
+    // Cerrar el menú de hamburguesa al hacer clic fuera
+    document.addEventListener('click', (e) => {
+        // Asegurarse de que el clic no fue en el botón de hamburguesa ni dentro del menú
+        if (!navMenu.contains(e.target) && !hamburgerMenu.contains(e.target) && navMenu.classList.contains('open')) {
+            navMenu.classList.remove('open');
         }
+    });
 
-        requestAnimationFrame(scrollCarousel); // Usa requestAnimationFrame para una animación más suave
-    }
+    // Iniciar en la primera página y activar el primer enlace
+    updatePage(0);
 
-    // Iniciar la animación
-    scrollCarousel();
+    // Desplazamiento táctil (para móviles y tablets)
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    pageContainer.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+    });
+
+    pageContainer.addEventListener('touchmove', (e) => {
+        touchEndX = e.touches[0].clientX;
+    });
+
+    pageContainer.addEventListener('touchend', () => {
+        const threshold = 50; // Distancia mínima para considerar un swipe
+        if (touchEndX < touchStartX - threshold) {
+            // Swipe a la izquierda (avanzar página)
+            if (currentPageIndex < pages.length - 1) {
+                updatePage(currentPageIndex + 1);
+            }
+        } else if (touchEndX > touchStartX + threshold) {
+            // Swipe a la derecha (retroceder página)
+            if (currentPageIndex > 0) {
+                updatePage(currentPageIndex - 1);
+            }
+        }
+        // Resetear valores
+        touchStartX = 0;
+        touchEndX = 0;
+    });
 });
