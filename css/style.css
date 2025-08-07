@@ -72,14 +72,83 @@ body {
     color: var(--primary-color);
 }
 
-/* Hamburger Menu (Hidden by default) */
+
+
+/* Estilos generales omitidos, agregá esto al final */
+
 .hamburger-menu {
-    display: none; /* Se mostrará con media queries */
-    font-size: 30px;
-    cursor: pointer;
-    color: var(--text-color);
-    padding: 10px; /* Área de clic más grande */
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  z-index: 10;
+  padding: 10px;
 }
+
+.hamburger-menu span {
+  height: 3px;
+  width: 25px;
+  background: #000;
+  margin: 4px 0;
+  border-radius: 2px;
+  transition: 0.3s ease;
+}
+
+.hamburger-menu.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger-menu.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-menu.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Responsive */
+@media (max-width: 560px) {
+  .hamburger-menu {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: white;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-menu.active {
+    display: flex;
+  }
+
+  .nav-menu ul {
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+  }
+
+  .nav-menu li {
+    margin: 10px 0;
+  }
+
+  .nav-menu a {
+    display: block;
+    padding: 15px;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+
+
+
+
 
 /* Page Container */
 .page-container {
@@ -124,11 +193,11 @@ body {
     justify-content: center;
     color: var(--text-color);
     /* Aseguramos que el contenido del texto no se desborde */
-    overflow-y: auto; /* Permite scroll si el texto es muy largo */
+     overflow: hidden; /* Permite scroll si el texto es muy largo */
 }
 
 .text-block h1 {
-    font-size: 2.5em;
+    font-size: 1.8em;
     margin-bottom: 20px;
     color: var(--text-color);
 }
@@ -230,6 +299,46 @@ body {
     transform: translateX(5px);
 }
 
+
+
+
+/* ============================================== */
+/* === Estilos para el Botón "Volver a la Agenda" === */
+/* ============================================== */
+
+.btn-volver {
+  /* --- Apariencia de Botón --- */
+  display: inline-block; /* Permite que el enlace se comporte como un bloque para poder darle tamaño y padding. */
+  padding: 12px 28px;     /* Relleno interior: 12px arriba/abajo, 28px a los lados. Lo hace más "robusto". */
+  
+  /* --- Colores y Forma --- */
+  background-color: rgba(255, 255, 255, 0.85); /* Fondo blanco ligeramente transparente para que se adapte a cualquier página. */
+  color: var(--text-color);                     /* Texto oscuro para un buen contraste. */
+  border-radius: 30px;                          /* Bordes completamente redondeados, creando una forma de "píldora". */
+  
+  /* --- Tipografía y Texto --- */
+  text-decoration: none;   /* Quita el subrayado por defecto de los enlaces. */
+  font-weight: 700;        /* Texto en negrita para que destaque. */
+  text-align: center;      /* Asegura que el texto esté centrado si ocupa varias líneas. */
+  
+  /* --- Efectos y Posicionamiento --- */
+  margin-top: 30px;        /* Un margen superior para separarlo del párrafo anterior. */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Una sombra sutil que le da profundidad y lo "levanta" de la página. */
+  transition: all 0.3s ease; /* Una transición suave para todos los cambios (hover). */
+  cursor: pointer;         /* Cambia el cursor a una mano para indicar que es clickeable. */
+}
+
+/* --- Efecto al pasar el mouse por encima (Hover) --- */
+.btn-volver:hover {
+  background-color: white; /* El fondo se vuelve blanco sólido. */
+  transform: translateY(-3px); /* El botón se "levanta" un poco para dar feedback visual. */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); /* La sombra se hace un poco más pronunciada. */
+  color: var(--primary-color); /* El texto cambia al color primario de tu marca. */
+}
+
+
+
+
 #lito-demuro .page-content {
     background-color: var(--secondary-color);
     color: var(--light-text-color);
@@ -247,6 +356,31 @@ body {
     background-color: #616161;
     border-radius: 0 8px 8px 0;
 }
+
+
+
+/* ================================================= */
+/* === Corrección para el Botón en pág. Lito Demuro === */
+/* ================================================= */
+
+#lito-demuro .btn-volver {
+  /* Usamos los colores invertidos para que contrasten con el fondo verde */
+  background-color: var(--primary-color);   /* Fondo oscuro (marrón de tu paleta) */
+  color: var(--light-text-color);           /* Texto claro */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);  /* Sombra un poco más oscura para notarse en el fondo verde */
+}
+
+/* Y un efecto hover también adaptado */
+#lito-demuro .btn-volver:hover {
+  background-color: #5a4f47; /* Un tono de marrón un poco más claro que el primario */
+  color: white;              /* Mantenemos el texto blanco */
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+
+
+
 
 #luciano-martins .page-content {
     background-color: var(--background-grey);
@@ -351,223 +485,6 @@ body {
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* ==================================== */
-/* MEDIA QUERIES PARA RESPONSIVIDAD */
-/* ==================================== */
-
-/* Tablet y Mobile (general) */
-@media (max-width: 992px) {
-    .navbar {
-        height: var(--nav-height-mobile);
-        padding: 0 20px;
-    }
-
-    .navbar .logo img {
-        height: 40px; /* Ajusta el logo para pantallas más pequeñas */
-    }
-
-    .nav-menu {
-        display: none; /* Oculta el menú de navegación principal */
-        flex-direction: column;
-        position: fixed; /* Ojo: 'fixed' para que cubra la pantalla */
-        top: var(--nav-height-mobile); /* Comienza debajo de la navbar */
-        left: 0;
-        width: 100%;
-        height: calc(100vh - var(--nav-height-mobile)); /* Ocupa el resto de la altura */
-        background-color: rgba(255, 255, 255, 0.98); /* Fondo más opaco para el menú */
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        padding: 20px 0;
-        z-index: 999;
-        /* Animación para que aparezca suavemente */
-        transform: translateX(-100%);
-        transition: transform 0.3s ease-out;
-        overflow-y: auto; /* Para que el menú pueda hacer scroll si hay muchos ítems */
-    }
-
-    .nav-menu.open {
-        display: flex; /* Muestra el menú cuando la clase 'open' está activa */
-        transform: translateX(0);
-    }
-
-    .nav-menu ul {
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-    }
-
-    .nav-menu ul li {
-        margin: 15px 0; /* Espaciado vertical para los ítems del menú */
-        width: 100%; /* Para que los enlaces ocupen todo el ancho si se desea centrar el texto */
-        text-align: center;
-    }
-
-    .nav-menu ul li a {
-        font-size: 1.2em; /* Hace los enlaces más grandes */
-        padding: 10px 0; /* Mayor área clicable */
-        display: block; /* Para que el padding y el text-align funcionen en todo el ancho */
-        color: var(--text-color); /* Asegura que el color se mantenga */
-    }
-    .nav-menu ul li a:hover {
-        background-color: var(--background-grey);
-    }
 
 
-    .hamburger-menu {
-        display: block; /* Muestra el icono de hamburguesa */
-    }
 
-    /* Ajuste del page-container para nueva altura de nav/footer */
-    .page-container {
-        height: calc(100vh - var(--nav-height-mobile) - var(--footer-height-mobile));
-        top: var(--nav-height-mobile);
-    }
-
-    .footer {
-        height: var(--footer-height-mobile);
-    }
-
-    /* Contenido de las páginas: cambia a columna */
-    .page-content {
-        flex-direction: column;
-        margin-top: 0; /* Elimina margen superior para aprovechar el espacio */
-        margin-bottom: 0; /* Elimina margen inferior */
-        border-radius: 0; /* Elimina bordes redondeados en pantallas pequeñas para ocupar todo el espacio */
-        height: auto; /* Altura automática basada en el contenido */
-        max-width: 100%; /* Ocupa todo el ancho disponible */
-    }
-
-    .text-block, .image-block {
-        flex: none; /* Anula flex: 1 */
-        width: 100%; /* Ocupa todo el ancho */
-        padding: 30px 20px; /* Ajusta el padding lateral */
-        min-height: auto; /* Resetea la altura mínima para que se ajuste al contenido */
-    }
-
-    .text-block h1 {
-        font-size: 2em;
-    }
-
-    .text-block h2 {
-        font-size: 1.5em;
-    }
-
-    .text-block p {
-        font-size: 1em;
-    }
-
-    .image-block {
-        height: 250px; /* Altura fija para las imágenes en mobile/tablet */
-        /* Asegurarse que la imagen se vea bien */
-        max-height: 50vh; /* Máximo 50% de la altura de la vista si la imagen es muy grande */
-    }
-
-    /* Ajustes específicos para Agenda en pantallas pequeñas */
-    #agenda .page-content {
-        flex-direction: column-reverse; /* Cambia el orden para que la imagen quede arriba */
-    }
-    #agenda .text-block, #agenda .image-block {
-        border-radius: 0; /* Quita los bordes redondeados específicos */
-    }
-    #agenda .image-block {
-        background-color: var(--primary-color); /* Asegura que la imagen de agenda mantenga el color de fondo */
-    }
-    .agenda-text p a {
-        text-align: left; /* Alinea los links a la izquierda en agenda mobile */
-        width: auto; /* Anula el width:100% que puedan haber heredado */
-    }
-
-
-    /* Ajustes para artistas (también se apilan y la imagen va arriba) */
-    .artist-page .page-content {
-        flex-direction: column-reverse; /* Texto abajo, imagen arriba */
-    }
-    .artist-page .text-block, .artist-page .image-block {
-        border-radius: 0;
-    }
-
-    .contact-form {
-        max-width: 95%; /* Ajusta el ancho del formulario */
-        padding: 0 10px; /* Pequeño padding para el formulario */
-    }
-
-    .contact-form input,
-    .contact-form textarea,
-    .contact-form button {
-        padding: 12px;
-        font-size: 0.9em;
-    }
-}
-
-/* Mobile específico (pantallas más pequeñas aún) */
-@media (max-width: 768px) {
-    .navbar {
-        padding: 0 15px;
-    }
-    .navbar .logo img {
-        height: 35px;
-    }
-    .hamburger-menu {
-        font-size: 26px;
-    }
-
-    .nav-menu {
-        top: var(--nav-height-mobile); /* Asegura que siga debajo de la navbar */
-        height: calc(100vh - var(--nav-height-mobile));
-    }
-
-    .page-container {
-        height: calc(100vh - var(--nav-height-mobile) - var(--footer-height-mobile));
-        top: var(--nav-height-mobile);
-    }
-    .footer {
-        font-size: 0.8em;
-    }
-
-    .text-block {
-        padding: 25px 15px;
-    }
-    .text-block h1 {
-        font-size: 1.6em;
-    }
-    .text-block h2 {
-        font-size: 1.2em;
-    }
-    .text-block p {
-        font-size: 0.9em;
-    }
-    .image-block {
-        height: 200px; /* Reduce un poco más la altura de la imagen */
-    }
-    .map-container {
-        padding: 5px; /* Reduce padding del mapa */
-    }
-
-    .contact-form {
-        gap: 10px; /* Reduce el espacio entre campos del formulario */
-    }
-}
-
-/* Extra Small Devices (e.g., iPhone 5/SE) */
-@media (max-width: 480px) {
-    .navbar {
-        padding: 0 10px;
-    }
-    .navbar .logo img {
-        height: 30px;
-    }
-    .hamburger-menu {
-        font-size: 24px;
-    }
-    .text-block h1 {
-        font-size: 1.4em;
-    }
-    .text-block h2 {
-        font-size: 1.1em;
-    }
-    .text-block p {
-        font-size: 0.85em;
-    }
-    .image-block {
-        height: 180px;
-    }
-}

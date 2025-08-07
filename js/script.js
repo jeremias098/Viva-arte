@@ -1,135 +1,115 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const pageContainer = document.querySelector('.page-container');
-    const pages = document.querySelectorAll('.page');
-    // Referencia solo a los enlaces del menú principal para la activación de la clase 'active'
-    const mainNavLinks = document.querySelectorAll('.nav-menu a');
-    // Referencia a TODOS los elementos clicables que pueden cambiar la página.
-    // Usamos el contenedor de la navbar y el contenedor de la agenda para delegar eventos.
-    const navbar = document.querySelector('.navbar');
-    const agendaText = document.querySelector('.agenda-text'); // Contenedor de los enlaces de artistas en agenda
+// Selectores del DOM
+const pageContainer = document.querySelector('.page-container');
+const pages = document.querySelectorAll('.page');
+const navbar = document.querySelector('.navbar');
+const agendaText = document.querySelector('.agenda-text');
+const hamburgerMenu = document.querySelector('.hamburger-menu');
+const navMenu = document.querySelector('.nav-menu');
 
-    const hamburgerMenu = document.querySelector('.hamburger-menu');
-    const navMenu = document.querySelector('.nav-menu');
-    let currentPageIndex = 0;
-    let isTransitioning = false;
+// Comprobación inicial para evitar errores
+if (!pageContainer || !hamburgerMenu || !navMenu) {
+  console.error("Error: Faltan elementos esenciales.");
+} else {
+  let currentPageIndex = 0;
+  let isTransitioning = false;
 
-    // Función para actualizar la página visible
-    function updatePage(index) {
-        if (isTransitioning || index < 0 || index >= pages.length) return;
+  function updatePage(index) {
+    if (isTransitioning || index < 0 || index >= pages.length) return;
+    isTransitioning = true;
+    currentPageIndex = index;
+    pageContainer.style.transform = `translateX(${-currentPageIndex * 100}vw)`;
 
-        isTransitioning = true;
-        currentPageIndex = index;
-        const offset = -currentPageIndex * 100;
-        pageContainer.style.transform = `translateX(${offset}vw)`;
-
-        // Actualizar la clase 'active' en el menú de navegación principal
-        mainNavLinks.forEach(link => link.classList.remove('active'));
-
-        // Lógica para resaltar el enlace correcto en el menú principal
-        if (index === 0) { // Quiénes somos
-            document.querySelector('.nav-menu a[href="#quienes-somos"]').classList.add('active');
-        } else if (index === 1) { // Dónde estamos
-            document.querySelector('.nav-menu a[href="#donde-estamos"]').classList.add('active');
-        } else if (index === 2 || (index >= 3 && index <= 6)) { // Agenda o cualquier página de artista
-            document.querySelector('.nav-menu a[href="#agenda"]').classList.add('active');
-        } else if (index === 7) { // Contacto
-            document.querySelector('.nav-menu a[href="#contacto"]').classList.add('active');
-        }
-
-        // Después de la transición, permitir nuevas transiciones
-        pageContainer.addEventListener('transitionend', () => {
-            isTransitioning = false;
-        }, { once: true });
+    document.querySelectorAll('.nav-menu a').forEach(link => link.classList.remove('active'));
+    
+    // Lógica para resaltar el enlace correcto en el menú
+    if (index >= 2 && index <= 6) {
+      // Si estamos en Agenda o en un artista, resalta "Agenda"
+      const agendaLink = document.querySelector('.nav-menu a[data-page="2"]');
+      if (agendaLink) agendaLink.classList.add('active');
+    } else {
+      // Si no, resalta el enlace correspondiente
+      const activeLink = document.querySelector(`.nav-menu a[data-page="${index}"]`);
+      if (activeLink) activeLink.classList.add('active');
     }
 
-    // Delegación de eventos para los enlaces del menú principal
+    pageContainer.addEventListener('transitionend', () => {
+      isTransitioning = false;
+    }, { once: true });
+  }
+
+  function closeMenu() {
+    hamburgerMenu.classList.remove('active');
+    navMenu.classList.remove('active');
+  }
+
+  hamburgerMenu.addEventListener('click', (e) => {
+    e.stopPropagation();
+    hamburgerMenu.classList.toggle('active');
+    navMenu.classList.toggle('active');
+  });
+
+  if (navbar) {
     navbar.addEventListener('click', (e) => {
-        const targetLink = e.target.closest('.nav-menu a'); // Busca el ancestro <a> más cercano
-        if (targetLink) {
-            e.preventDefault();
-            const indexToNavigate = parseInt(targetLink.getAttribute('data-page'));
-            if (!isNaN(indexToNavigate)) {
-                updatePage(indexToNavigate);
-                // Cerrar el menú de hamburguesa si está abierto
-                if (navMenu.classList.contains('open')) {
-                    navMenu.classList.remove('open');
-                }
-            }
+      const targetLink = e.target.closest('.nav-menu a');
+      if (targetLink) {
+        e.preventDefault();
+        const indexToNavigate = parseInt(targetLink.getAttribute('data-page'), 10);
+        if (!isNaN(indexToNavigate)) {
+          updatePage(indexToNavigate);
+          closeMenu();
         }
+      }
     });
+  }
 
-    // Delegación de eventos para los enlaces de la agenda
-    if (agendaText) { // Asegurarse de que el elemento existe
-        agendaText.addEventListener('click', (e) => {
-            const targetLink = e.target.closest('a'); // Busca el ancestro <a> más cercano
-            if (targetLink && targetLink.parentElement.tagName === 'P') { // Asegura que es un link dentro de un <p> en agenda
-                e.preventDefault();
-                const indexToNavigate = parseInt(targetLink.getAttribute('data-page'));
-                if (!isNaN(indexToNavigate)) {
-                    updatePage(indexToNavigate);
-                    // No hay menú de hamburguesa que cerrar aquí, ya que no es el menú principal.
-                }
-            }
-        });
+  if (agendaText) {
+    agendaText.addEventListener('click', (e) => {
+      const targetLink = e.target.closest('a[data-page]');
+      if (targetLink) {
+        e.preventDefault();
+        const indexToNavigate = parseInt(targetLink.getAttribute('data-page'), 10);
+        if (!isNaN(indexToNavigate)) updatePage(indexToNavigate);
+      }
+    });
+  }
+
+  // ===== ESTE ES EL NUEVO BLOQUE DE CÓDIGO AÑADIDO =====
+  // Delegación de eventos para los botones "Volver a la Agenda"
+  pageContainer.addEventListener('click', (e) => {
+    // Verificamos si el elemento clickeado (o su padre más cercano) tiene la clase 'btn-volver'
+    const volverButton = e.target.closest('.btn-volver');
+
+    if (volverButton) {
+      e.preventDefault(); // Prevenimos que el enlace '#' intente navegar.
+      updatePage(2);      // Le decimos que vaya a la página de Agenda (índice 2).
     }
+  });
+  // ===== FIN DEL CÓDIGO AÑADIDO =====
 
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' && currentPageIndex < pages.length - 1) {
+      updatePage(currentPageIndex + 1);
+    } else if (e.key === 'ArrowLeft' && currentPageIndex > 0) {
+      updatePage(currentPageIndex - 1);
+    }
+  });
 
-    // Navegación con flechas del teclado
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight') {
-            if (currentPageIndex < pages.length - 1) {
-                updatePage(currentPageIndex + 1);
-            }
-        } else if (e.key === 'ArrowLeft') {
-            if (currentPageIndex > 0) {
-                updatePage(currentPageIndex - 1);
-            }
-        }
-    });
+  // Desplazamiento táctil
+  let touchStartX = 0;
+  pageContainer.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+  });
 
-    // Manejo del menú de hamburguesa
-    hamburgerMenu.addEventListener('click', () => {
-        navMenu.classList.toggle('open');
-    });
+  pageContainer.addEventListener('touchend', (e) => {
+    const touchEndX = e.changedTouches[0].clientX;
+    const threshold = 50;
 
-    // Cerrar el menú de hamburguesa al hacer clic fuera
-    document.addEventListener('click', (e) => {
-        // Asegurarse de que el clic no fue en el botón de hamburguesa ni dentro del menú
-        if (!navMenu.contains(e.target) && !hamburgerMenu.contains(e.target) && navMenu.classList.contains('open')) {
-            navMenu.classList.remove('open');
-        }
-    });
+    if (touchStartX - touchEndX > threshold && currentPageIndex < pages.length - 1) {
+      updatePage(currentPageIndex + 1);
+    } else if (touchEndX - touchStartX > threshold && currentPageIndex > 0) {
+      updatePage(currentPageIndex - 1);
+    }
+  });
 
-    // Iniciar en la primera página y activar el primer enlace
-    updatePage(0);
-
-    // Desplazamiento táctil (para móviles y tablets)
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    pageContainer.addEventListener('touchstart', (e) => {
-        touchStartX = e.touches[0].clientX;
-    });
-
-    pageContainer.addEventListener('touchmove', (e) => {
-        touchEndX = e.touches[0].clientX;
-    });
-
-    pageContainer.addEventListener('touchend', () => {
-        const threshold = 50; // Distancia mínima para considerar un swipe
-        if (touchEndX < touchStartX - threshold) {
-            // Swipe a la izquierda (avanzar página)
-            if (currentPageIndex < pages.length - 1) {
-                updatePage(currentPageIndex + 1);
-            }
-        } else if (touchEndX > touchStartX + threshold) {
-            // Swipe a la derecha (retroceder página)
-            if (currentPageIndex > 0) {
-                updatePage(currentPageIndex - 1);
-            }
-        }
-        // Resetear valores
-        touchStartX = 0;
-        touchEndX = 0;
-    });
-});
+  updatePage(0); // Iniciar en la primera página
+}
