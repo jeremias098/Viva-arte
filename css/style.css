@@ -248,23 +248,8 @@ body {
 #donde-estamos .image-block {
     background-color: #ececec;
 }
-.map-container {
-    margin-top: 30px;
-    width: 500px;
-    height: 600px;
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    padding: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-.map-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block; /* Elimina espacios extra debajo de la imagen */
-    border-radius: 5px;
-}
+
+
 
 #agenda .page-content {
     background-color: var(--primary-color);
@@ -310,7 +295,7 @@ body {
   /* --- Apariencia de Botón --- */
   display: inline-block; /* Permite que el enlace se comporte como un bloque para poder darle tamaño y padding. */
   padding: 12px 28px;     /* Relleno interior: 12px arriba/abajo, 28px a los lados. Lo hace más "robusto". */
-  
+  max-height: 50px;
   /* --- Colores y Forma --- */
   background-color: rgba(255, 255, 255, 0.85); /* Fondo blanco ligeramente transparente para que se adapte a cualquier página. */
   color: var(--text-color);                     /* Texto oscuro para un buen contraste. */
@@ -358,30 +343,6 @@ body {
 }
 
 
-
-/* ================================================= */
-/* === Corrección para el Botón en pág. Lito Demuro === */
-/* ================================================= */
-
-#lito-demuro .btn-volver {
-  /* Usamos los colores invertidos para que contrasten con el fondo verde */
-  background-color: var(--primary-color);   /* Fondo oscuro (marrón de tu paleta) */
-  color: var(--light-text-color);           /* Texto claro */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);  /* Sombra un poco más oscura para notarse en el fondo verde */
-}
-
-/* Y un efecto hover también adaptado */
-#lito-demuro .btn-volver:hover {
-  background-color: #5a4f47; /* Un tono de marrón un poco más claro que el primario */
-  color: white;              /* Mantenemos el texto blanco */
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
-}
-
-
-
-
-
 #luciano-martins .page-content {
     background-color: var(--background-grey);
     color: var(--text-color);
@@ -413,6 +374,10 @@ body {
 }
 #paulo-brunari .image-block {
     background-color: #2ECC71;
+}
+
+#nelson-teixeira .text-block {
+   font-size: clamp(10px, 2vw, 15px );
 }
 
 #contacto .page-content {
@@ -487,4 +452,66 @@ body {
 
 
 
+/* --- Responsive para tablets --- */
+@media (max-width: 992px) {
+/* --- Ajustes base para permitir scroll --- */
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  overflow-x: hidden; /* Evita scroll horizontal */
+  overflow-y: auto; /* Habilita scroll vertical */
+}
 
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Mínimo pantalla completa, pero deja crecer si hay más contenido */
+}
+
+.page-content {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los bloques bajen en pantallas pequeñas */
+  width: 100%;
+}
+
+/* Ajuste para que las columnas sean flexibles */
+.text-block, .image-block {
+  flex: 1 1 50%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Imagen adaptable */
+.image-block img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+  .page-content {
+    flex-direction: column; /* Pasa a una columna */
+  }
+
+  .text-block, .image-block {
+    flex: 1 1 100%;
+  }
+}
+
+
+
+/* --- Responsive para móviles --- */
+@media (max-width: 560px) {
+  .text-block h1 {
+    font-size: 1.5em;
+  }
+
+  .text-block p {
+    font-size: 1em;
+  }
+
+  .btn-volver {
+    padding: 10px 15px;
+    font-size: 0.9em;
+  }
+}

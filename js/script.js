@@ -113,3 +113,11 @@ if (!pageContainer || !hamburgerMenu || !navMenu) {
 
   updatePage(0); // Iniciar en la primera página
 }
+
+
+
+
+
+
+
+
