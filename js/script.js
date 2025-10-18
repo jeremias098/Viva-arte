@@ -13,42 +13,61 @@ if (!pageContainer || !hamburgerMenu || !navMenu) {
   let currentPageIndex = 0;
   let isTransitioning = false;
 
-  function updatePage(index) {
-    if (isTransitioning || index < 0 || index >= pages.length) return;
-    isTransitioning = true;
-    currentPageIndex = index;
-    pageContainer.style.transform = `translateX(${-currentPageIndex * 100}vw)`;
 
-    document.querySelectorAll('.nav-menu a').forEach(link => link.classList.remove('active'));
-    
-    // Lógica para resaltar el enlace correcto en el menú
-    if (index >= 2 && index <= 6) {
-      // Si estamos en Agenda o en un artista, resalta "Agenda"
-      const agendaLink = document.querySelector('.nav-menu a[data-page="2"]');
-      if (agendaLink) agendaLink.classList.add('active');
-    } else {
-      // Si no, resalta el enlace correspondiente
-      const activeLink = document.querySelector(`.nav-menu a[data-page="${index}"]`);
-      if (activeLink) activeLink.classList.add('active');
-    }
 
-    pageContainer.addEventListener('transitionend', () => {
-      isTransitioning = false;
-    }, { once: true });
+//FUNCION DEL SCROLL Y MARCAR BOTON DE AGENDA EN NAV
+
+
+function updatePage(index) {
+  if (isTransitioning || index < 0 || index >= pages.length) return;
+  isTransitioning = true;
+  currentPageIndex = index;
+
+  // Detectar el ancho de la pantalla
+  const isMobileOrTablet = window.innerWidth < 962;
+
+  if (isMobileOrTablet) {
+    // Scroll en vertical
+    pageContainer.style.transform = `translateY(${-currentPageIndex * 100}dvh)`;
+  } else {
+    // Scroll en horizontal
+    pageContainer.style.transform = `translateX(${-currentPageIndex * 100}dvw)`;
   }
+
+  // Quitar todas las clases "active" de los links
+  document.querySelectorAll('.nav-menu a').forEach(link => link.classList.remove('active'));
+  
+  // Lógica para resaltar el enlace correcto en el menú
+  if (index >= 2 && index <= 7) {
+    const agendaLink = document.querySelector('.nav-menu a[data-page="2"]');
+    if (agendaLink) agendaLink.classList.add('active');
+  } else {
+    const activeLink = document.querySelector(`.nav-menu a[data-page="${index}"]`);
+    if (activeLink) activeLink.classList.add('active');
+  }
+
+  pageContainer.addEventListener('transitionend', () => {
+    isTransitioning = false;
+  }, { once: true });
+}
+
+
+
+//FUNCION PARA ACTIVAR Y DESACTIVAR EL MENU HAMBURGUESA
+
 
   function closeMenu() {
     hamburgerMenu.classList.remove('active');
     navMenu.classList.remove('active');
-  }
+   }
 
-  hamburgerMenu.addEventListener('click', (e) => {
+   hamburgerMenu.addEventListener('click', (e) => {
     e.stopPropagation();
     hamburgerMenu.classList.toggle('active');
     navMenu.classList.toggle('active');
-  });
+   });
 
-  if (navbar) {
+   if (navbar) {
     navbar.addEventListener('click', (e) => {
       const targetLink = e.target.closest('.nav-menu a');
       if (targetLink) {
@@ -60,9 +79,9 @@ if (!pageContainer || !hamburgerMenu || !navMenu) {
         }
       }
     });
-  }
+   }
 
-  if (agendaText) {
+   if (agendaText) {
     agendaText.addEventListener('click', (e) => {
       const targetLink = e.target.closest('a[data-page]');
       if (targetLink) {
@@ -71,7 +90,7 @@ if (!pageContainer || !hamburgerMenu || !navMenu) {
         if (!isNaN(indexToNavigate)) updatePage(indexToNavigate);
       }
     });
-  }
+   }
 
   // ===== ESTE ES EL NUEVO BLOQUE DE CÓDIGO AÑADIDO =====
   // Delegación de eventos para los botones "Volver a la Agenda"

@@ -451,67 +451,12 @@ body {
 }
 
 
-
-/* --- Responsive para tablets --- */
-@media (max-width: 992px) {
-/* --- Ajustes base para permitir scroll --- */
-html, body {
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
-  overflow-x: hidden; /* Evita scroll horizontal */
-  overflow-y: auto; /* Habilita scroll vertical */
-}
-
-.page-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* Mínimo pantalla completa, pero deja crecer si hay más contenido */
-}
-
-.page-content {
-  display: flex;
-  flex-wrap: wrap; /* Permite que los bloques bajen en pantallas pequeñas */
-  width: 100%;
-}
-
-/* Ajuste para que las columnas sean flexibles */
-.text-block, .image-block {
-  flex: 1 1 50%;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-/* Imagen adaptable */
-.image-block img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-  .page-content {
-    flex-direction: column; /* Pasa a una columna */
-  }
-
-  .text-block, .image-block {
-    flex: 1 1 100%;
-  }
-}
-
-
-
-/* --- Responsive para móviles --- */
-@media (max-width: 560px) {
-  .text-block h1 {
-    font-size: 1.5em;
-  }
-
-  .text-block p {
-    font-size: 1em;
-  }
-
-  .btn-volver {
-    padding: 10px 15px;
-    font-size: 0.9em;
+/* Cuando la pantalla sea menor a 962px */
+@media (max-width: 962px) {
+  body {
+    overflow-y: auto;   /* Activa scroll vertical */
+    overflow-x: hidden; /* Evita scroll horizontal */
+    height: auto;       /* Deja que el body crezca según el contenido */
+    display: block;     /* Ya no usamos flex en móvil, dejamos flujo normal */
   }
 }
